@@ -52,6 +52,32 @@ assemble_targz(
     visibility = ["//visibility:public"]
 )
 
+assemble_targz(
+    name = "assemble-linux-deploy-targz",
+    targets = ["//server:server-deploy-deps",
+               "//console:console-deploy-deps",
+               "//bin:assemble-bash-targz"],
+    additional_files = {
+        "//server:conf/logback.xml": "server/conf/logback.xml",
+        "//console:conf/logback.xml": "console/conf/logback.xml",
+        "//server:conf/grakn.properties": "server/conf/grakn.properties",
+        "//server:services/cassandra/cassandra.yaml": "server/services/cassandra/cassandra.yaml",
+        "//server:services/cassandra/logback.xml": "server/services/cassandra/logback.xml",
+        "//server:services/grakn/grakn-core-ascii.txt": "server/services/grakn/grakn-core-ascii.txt",
+        "//:LICENSE": "LICENSE",
+        "//:README.md": "README.md",
+    },
+    empty_directories = [
+        "server/db/cassandra",
+    ],
+    permissions = {
+        "server/services/cassandra/cassandra.yaml": "0777",
+        "server/db/cassandra": "0777",
+    },
+    output_filename = "grakn-core-all-deploy-linux",
+    visibility = ["//visibility:public"]
+)
+
 assemble_zip(
     name = "assemble-mac-zip",
     targets = ["//server:server-deps",

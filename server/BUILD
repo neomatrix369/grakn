@@ -124,6 +124,17 @@ java_deps(
     visibility = ["//:__pkg__"]
 )
 
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+pkg_tar(
+    name = "server-deploy-deps",
+    srcs = [
+        ":server-binary_deploy.jar"
+    ],
+    package_dir = "server/services/lib/",
+    extension = "tgz",
+    visibility = ["//:__pkg__"]
+)
+
 assemble_targz(
     name = "assemble-linux-targz",
     output_filename = "grakn-core-server-linux",
